@@ -1,0 +1,17 @@
+{
+    "folders": [
+        "."
+    ], 
+    "file_extensions": [
+        ".mkv", 
+        ".wmv", 
+        ".avi", 
+        ".mpg", 
+        ".mpeg", 
+        ".flv", 
+        ".mov"
+    ], 
+    "exclude_names": [
+        "sample"
+    ]
+}

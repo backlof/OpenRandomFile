@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python
 
 import os
 import json
@@ -8,19 +8,22 @@ import sys
 data_file = 'folders.json'
 
 
-def get_files(folders, extensions=[]):
+def get_files(folders, extensions=[], exclude=[]):
     files = []
+
+    # Exclude not implemented
 
     for folder in folders:
         for root, dirnames, filenames in os.walk(folder):
             for filename in filenames:
-                if filename.endswith(tuple(extensions)):
+                if filename.lower().endswith(tuple(extensions)):
+                    print(filename)
                     files.append(os.path.join(root,filename))
 
     return files
 
 
-def get_random(folders, extensions=[]):
+def get_random(folders, extensions=[], exclude=[]):
     files = get_files(folders, extensions)
 
     if files:
@@ -30,24 +33,11 @@ def get_random(folders, extensions=[]):
         sys.exit(0)
 
 
-# Get relative path from current folder (script location)
-def get_relative_path(folder):
-    absolute_path = folder
-    # Separates filename out of absolute path to script
-    current_dir, script = os.path.split(os.path.realpath(__file__))
-
-    try:
-        relative_path = os.path.relpath(absolute_path, current_dir)
-        return relative_path
-    except ValueError:
-        # Folder is on a different drive
-        return absolute_path
-
-
 def default_dictionary():
     folders = []
-    extensions = ['.py', '.txt']
-    dictionary = {'folders': folders, 'file_extensions': extensions}
+    extensions = ['.mkv', '.wmv', '.avi', '.mpg', '.mpeg', '.flv', '.mov']
+    exclude = ['sample']
+    dictionary = {'folders': folders, 'file_extensions': extensions, 'exclude_names': exclude}
     return dictionary
 
 
@@ -69,7 +59,7 @@ def run_file(path):
 
     # Windows
     if os.name == 'nt':
-        os.system('start ' + '"' + path + '"')
+        os.startfile(path, 'open')
     # Mac OS X
     elif sys.platform.startswith('darwin'):
         subprocess.call(('open', path))
@@ -84,6 +74,6 @@ if __name__ == "__main__":
     if not settings["folders"]:
         print('You need to add a folder first.')
     else:
-        file = get_random(settings["folders"], settings["file_extensions"])
+        file = get_random(settings["folders"], settings["file_extensions"], settings["exclude_names"])
         print(file)
         run_file(file)
