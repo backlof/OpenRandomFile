@@ -1,0 +1,14 @@
+{
+    "file_extensions": [
+        ".mkv", 
+        ".wmv", 
+        ".avi", 
+        ".mpg", 
+        ".mpeg", 
+        ".flv", 
+        ".mov"
+    ], 
+    "directories": [], 
+    "exclude_term": [], 
+    "minimum_size_byte": 104857600
+}
